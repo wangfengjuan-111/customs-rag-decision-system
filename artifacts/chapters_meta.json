@@ -1,0 +1,688 @@
+[
+ {
+  "chapter": 1,
+  "title": "CHAPTER 1",
+  "description": "LIVE ANIMALS",
+  "section": "I",
+  "n_clauses": 6
+ },
+ {
+  "chapter": 2,
+  "title": "CHAPTER 2",
+  "description": "MEAT AND EDIBLE MEAT OFFAL",
+  "section": "I",
+  "n_clauses": 10
+ },
+ {
+  "chapter": 3,
+  "title": "CHAPTER 3",
+  "description": "FISH AND CRUSTACEANS, MOLLUSCS AND OTHER AQUATIC INVERTEBRATES",
+  "section": "I",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 4,
+  "title": "CHAPTER 4",
+  "description": "DAIRY PRODUCE; BIRDS' EGGS; NATURAL HONEY; EDIBLE PRODUCTS OF ANIMAL ORIGIN,",
+  "section": "I",
+  "n_clauses": 51
+ },
+ {
+  "chapter": 5,
+  "title": "CHAPTER 5",
+  "description": "PRODUCTS OF ANIMAL ORIGIN, NOT ELSEWHERE SPECIFIED OR INCLUDED",
+  "section": "I",
+  "n_clauses": 8
+ },
+ {
+  "chapter": 6,
+  "title": "CHAPTER 6",
+  "description": "LIVE TREES AND OTHER PLANTS; BULBS, ROOTS AND THE LIKE;",
+  "section": "II",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 7,
+  "title": "CHAPTER 7",
+  "description": "EDIBLE VEGETABLES AND CERTAIN ROOTS AND TUBERS",
+  "section": "II",
+  "n_clauses": 17
+ },
+ {
+  "chapter": 8,
+  "title": "CHAPTER 8",
+  "description": "EDIBLE FRUIT AND NUTS; PEEL OF",
+  "section": "II",
+  "n_clauses": 10
+ },
+ {
+  "chapter": 9,
+  "title": "CHAPTER 9",
+  "description": "COFFEE, TEA, MATÉ AND SPICES",
+  "section": "II",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 10,
+  "title": "CHAPTER 10",
+  "description": "CEREALS",
+  "section": "II",
+  "n_clauses": 4
+ },
+ {
+  "chapter": 11,
+  "title": "CHAPTER 11",
+  "description": "PRODUCTS OF THE MILLING INDUSTRY; MALT;",
+  "section": "II",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 12,
+  "title": "CHAPTER 12",
+  "description": "OIL SEEDS AND OLEAGINOUS FRUITS;",
+  "section": "II",
+  "n_clauses": 19
+ },
+ {
+  "chapter": 13,
+  "title": "CHAPTER 13",
+  "description": "LAC; GUMS; RESINS AND OTHER VEGETABLE",
+  "section": "II",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 14,
+  "title": "CHAPTER 14",
+  "description": "VEGETABLE PLAITING MATERIALS; VEGETABLE PRODUCTS",
+  "section": "II",
+  "n_clauses": 3
+ },
+ {
+  "chapter": 15,
+  "title": "CHAPTER 15",
+  "description": "ANIMAL,VEGETABLE OR MICROBIAL FATS AND OILS AND THEIR",
+  "section": "III",
+  "n_clauses": 15
+ },
+ {
+  "chapter": 16,
+  "title": "CHAPTER 16",
+  "description": "PREPARATIONS OF MEAT, OF FISH, OF CRUSTACEANS, MOLLUSCS OR OTHER AQUATIC INVERTEBRATES, OR OF INSECTS",
+  "section": "IV",
+  "n_clauses": 8
+ },
+ {
+  "chapter": 17,
+  "title": "CHAPTER 17",
+  "description": "SUGARS AND SUGAR CONFECTIONERY",
+  "section": "IV",
+  "n_clauses": 18
+ },
+ {
+  "chapter": 18,
+  "title": "CHAPTER 18",
+  "description": "COCOA AND COCOA PREPARATIONS",
+  "section": "IV",
+  "n_clauses": 8
+ },
+ {
+  "chapter": 19,
+  "title": "CHAPTER 19",
+  "description": "PREPARATIONS OF CEREALS, FLOUR, STARCH OR MILK; BAKERS' WARES",
+  "section": "IV",
+  "n_clauses": 15
+ },
+ {
+  "chapter": 20,
+  "title": "CHAPTER 20",
+  "description": "PREPARATIONS OF VEGETABLES, FRUIT, NUTS",
+  "section": "IV",
+  "n_clauses": 25
+ },
+ {
+  "chapter": 21,
+  "title": "CHAPTER 21",
+  "description": "MISCELLANEOUS EDIBLE PREPARATIONS",
+  "section": "IV",
+  "n_clauses": 22
+ },
+ {
+  "chapter": 22,
+  "title": "CHAPTER 22",
+  "description": "BEVERAGES, SPIRITS AND VINEGAR",
+  "section": "IV",
+  "n_clauses": 22
+ },
+ {
+  "chapter": 23,
+  "title": "CHAPTER 23",
+  "description": "RESIDUES AND WASTE FROM THE FOOD INDUSTRIES;",
+  "section": "IV",
+  "n_clauses": 4
+ },
+ {
+  "chapter": 24,
+  "title": "CHAPTER 24",
+  "description": "TOBACCO AND MANUFACTURED TOBACCO SUBSTITUTES; PRODUCTS, WHETHER OR NOT CONTAINING NICOTINE, INTENDED FOR INHALATION WITHOUT COMBUSTION; OTHER NICOTINE CONTAINING PRODUCTS INTENDED FOR THE INTAKE OF NICOTINE INTO THE HUMAN BODY",
+  "section": "IV",
+  "n_clauses": 10
+ },
+ {
+  "chapter": 25,
+  "title": "CHAPTER 25",
+  "description": "SALT; SULFUR; EARTHS AND STONE;",
+  "section": "V",
+  "n_clauses": 17
+ },
+ {
+  "chapter": 26,
+  "title": "CHAPTER 26",
+  "description": "ORES, SLAG AND ASH",
+  "section": "V",
+  "n_clauses": 19
+ },
+ {
+  "chapter": 27,
+  "title": "CHAPTER 27",
+  "description": "MINERAL FUELS, MINERAL OILS AND PRODUCTS",
+  "section": "V",
+  "n_clauses": 28
+ },
+ {
+  "chapter": 28,
+  "title": "CHAPTER 28",
+  "description": "INORGANIC CHEMICALS; ORGANIC OR INORGANIC COMPOUNDS OF PRECIOUS METALS, OF RARE-EARTH METALS,",
+  "section": "VI",
+  "n_clauses": 34
+ },
+ {
+  "chapter": 29,
+  "title": "CHAPTER 29",
+  "description": "ORGANIC CHEMICALS",
+  "section": "VI",
+  "n_clauses": 30
+ },
+ {
+  "chapter": 30,
+  "title": "CHAPTER 30",
+  "description": "PHARMACEUTICAL PRODUCTS",
+  "section": "VI",
+  "n_clauses": 32
+ },
+ {
+  "chapter": 31,
+  "title": "CHAPTER 31",
+  "description": "FERTILIZERS",
+  "section": "VI",
+  "n_clauses": 34
+ },
+ {
+  "chapter": 32,
+  "title": "CHAPTER 32",
+  "description": "TANNING OR DYEING EXTRACTS;",
+  "section": "VI",
+  "n_clauses": 12
+ },
+ {
+  "chapter": 33,
+  "title": "CHAPTER 33",
+  "description": "ESSENTIAL OILS AND RESINOIDS; PERFUMERY,",
+  "section": "VI",
+  "n_clauses": 7
+ },
+ {
+  "chapter": 34,
+  "title": "CHAPTER 34",
+  "description": "SOAP, ORGANIC SURFACE-ACTIVE AGENTS,",
+  "section": "VI",
+  "n_clauses": 13
+ },
+ {
+  "chapter": 35,
+  "title": "CHAPTER 35",
+  "description": "ALBUMINOIDAL SUBSTANCES;",
+  "section": "VI",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 36,
+  "title": "CHAPTER 36",
+  "description": "EXPLOSIVES; PYROTECHNIC PRODUCTS; MATCHES;",
+  "section": "VI",
+  "n_clauses": 6
+ },
+ {
+  "chapter": 37,
+  "title": "CHAPTER 37",
+  "description": "PHOTOGRAPHIC OR CINEMATOGRAPHIC GOODS",
+  "section": "VI",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 38,
+  "title": "CHAPTER 38",
+  "description": "MISCELLANEOUS CHEMICAL PRODUCTS",
+  "section": "VI",
+  "n_clauses": 38
+ },
+ {
+  "chapter": 39,
+  "title": "CHAPTER 39",
+  "description": "PLASTICS AND ARTICLES THEREOF",
+  "section": "VII",
+  "n_clauses": 69
+ },
+ {
+  "chapter": 40,
+  "title": "CHAPTER 40",
+  "description": "RUBBER AND ARTICLES THEREOF",
+  "section": "VII",
+  "n_clauses": 22
+ },
+ {
+  "chapter": 41,
+  "title": "CHAPTER 41",
+  "description": "RAW HIDES AND SKINS (OTHER THAN FURSKINS) AND LEATHER",
+  "section": "VIII",
+  "n_clauses": 6
+ },
+ {
+  "chapter": 42,
+  "title": "CHAPTER 42",
+  "description": "ARTICLES OF LEATHER; SADDLERY AND HARNESS;",
+  "section": "VIII",
+  "n_clauses": 17
+ },
+ {
+  "chapter": 43,
+  "title": "CHAPTER 43",
+  "description": "FURSKINS AND ARTIFICIAL FUR; MANUFACTURES THEREOF",
+  "section": "VIII",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 44,
+  "title": "CHAPTER 44",
+  "description": "WOOD AND ARTICLES OF WOOD; WOOD CHARCOAL",
+  "section": "IX",
+  "n_clauses": 37
+ },
+ {
+  "chapter": 45,
+  "title": "CHAPTER 45",
+  "description": "CORK AND ARTICLES OF CORK",
+  "section": "IX",
+  "n_clauses": 5
+ },
+ {
+  "chapter": 46,
+  "title": "CHAPTER 46",
+  "description": "MANUFACTURES OF STRAW, OF ESPARTO OR",
+  "section": "IX",
+  "n_clauses": 8
+ },
+ {
+  "chapter": 47,
+  "title": "CHAPTER 47",
+  "description": "PULP OF WOOD OR OF OTHER FIBROUS CELLULOSIC MATERIAL;",
+  "section": "X",
+  "n_clauses": 1
+ },
+ {
+  "chapter": 48,
+  "title": "CHAPTER 48",
+  "description": "PAPER AND PAPERBOARD; ARTICLES OF PAPER PULP,",
+  "section": "X",
+  "n_clauses": 50
+ },
+ {
+  "chapter": 49,
+  "title": "CHAPTER 49",
+  "description": "PRINTED BOOKS, NEWSPAPERS, PICTURES AND OTHER",
+  "section": "X",
+  "n_clauses": 15
+ },
+ {
+  "chapter": 50,
+  "title": "CHAPTER 50",
+  "description": "SILK",
+  "section": "XI",
+  "n_clauses": 0
+ },
+ {
+  "chapter": 51,
+  "title": "CHAPTER 51",
+  "description": "WOOL, FINE OR COARSE ANIMAL HAIR;",
+  "section": "XI",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 52,
+  "title": "CHAPTER 52",
+  "description": "COTTON",
+  "section": "XI",
+  "n_clauses": 42
+ },
+ {
+  "chapter": 53,
+  "title": "CHAPTER 53",
+  "description": "OTHER VEGETABLE TEXTILE FIBERS; PAPER YARN",
+  "section": "XI",
+  "n_clauses": 18
+ },
+ {
+  "chapter": 54,
+  "title": "CHAPTER 54",
+  "description": "MAN-MADE FILAMENTS; STRIP AND THE LIKE OF MAN-MADE TEXTILE MATERIALS",
+  "section": "XI",
+  "n_clauses": 29
+ },
+ {
+  "chapter": 55,
+  "title": "CHAPTER 55",
+  "description": "MAN-MADE STAPLE FIBERS",
+  "section": "XI",
+  "n_clauses": 37
+ },
+ {
+  "chapter": 56,
+  "title": "CHAPTER 56",
+  "description": "WADDING, FELT AND NONWOVENS; SPECIAL YARNS;",
+  "section": "XI",
+  "n_clauses": 16
+ },
+ {
+  "chapter": 57,
+  "title": "CHAPTER 57",
+  "description": "CARPETS AND OTHER TEXTILE FLOOR COVERINGS",
+  "section": "XI",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 58,
+  "title": "CHAPTER 58",
+  "description": "SPECIAL WOVEN FABRICS; TUFTED TEXTILE FABRICS;",
+  "section": "XI",
+  "n_clauses": 15
+ },
+ {
+  "chapter": 59,
+  "title": "CHAPTER 59",
+  "description": "IMPREGNATED, COATED, COVERED OR LAMINATED TEXTILE FABRICS;",
+  "section": "XI",
+  "n_clauses": 39
+ },
+ {
+  "chapter": 60,
+  "title": "CHAPTER 60",
+  "description": "KNITTED OR CROCHETED FABRICS",
+  "section": "XI",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 61,
+  "title": "CHAPTER 61",
+  "description": "ARTICLES OF APPAREL AND CLOTHING ACCESSORIES, KNITTED OR CROCHETED",
+  "section": "XI",
+  "n_clauses": 32
+ },
+ {
+  "chapter": 62,
+  "title": "CHAPTER 62",
+  "description": "ARTICLES OF APPAREL AND CLOTHING ACCESSORIES, NOT KNITTED OR CROCHETED",
+  "section": "XI",
+  "n_clauses": 60
+ },
+ {
+  "chapter": 63,
+  "title": "CHAPTER 63",
+  "description": "OTHER MADE UP TEXTILE ARTICLES; NEEDLECRAFT SETS; WORN CLOTHING AND WORN TEXTILE ARTICLES; RAGS",
+  "section": "XI",
+  "n_clauses": 13
+ },
+ {
+  "chapter": 64,
+  "title": "CHAPTER 64",
+  "description": "FOOTWEAR, GAITERS AND THE LIKE; PARTS OF",
+  "section": "XII",
+  "n_clauses": 42
+ },
+ {
+  "chapter": 65,
+  "title": "CHAPTER 65",
+  "description": "HEADGEAR AND PARTS THEREOF",
+  "section": "XII",
+  "n_clauses": 6
+ },
+ {
+  "chapter": 66,
+  "title": "CHAPTER 66",
+  "description": "UMBRELLAS, SUN UMBRELLAS, WALKING-STICKS, SEAT-STICKS,",
+  "section": "XII",
+  "n_clauses": 5
+ },
+ {
+  "chapter": 67,
+  "title": "CHAPTER 67",
+  "description": "PREPARED FEATHERS AND DOWN AND ARTICLES",
+  "section": "XII",
+  "n_clauses": 14
+ },
+ {
+  "chapter": 68,
+  "title": "CHAPTER 68",
+  "description": "ARTICLES OF STONE, PLASTER, CEMENT,",
+  "section": "XIII",
+  "n_clauses": 17
+ },
+ {
+  "chapter": 69,
+  "title": "CHAPTER 69",
+  "description": "CERAMIC PRODUCTS",
+  "section": "XIII",
+  "n_clauses": 34
+ },
+ {
+  "chapter": 70,
+  "title": "CHAPTER 70",
+  "description": "GLASS AND GLASSWARE",
+  "section": "XIII",
+  "n_clauses": 30
+ },
+ {
+  "chapter": 71,
+  "title": "CHAPTER 71",
+  "description": "NATURAL OR CULTURED PEARLS, PRECIOUS",
+  "section": "XIV",
+  "n_clauses": 41
+ },
+ {
+  "chapter": 72,
+  "title": "CHAPTER 72",
+  "description": "IRON AND STEEL",
+  "section": "XV",
+  "n_clauses": 72
+ },
+ {
+  "chapter": 73,
+  "title": "CHAPTER 73",
+  "description": "ARTICLES OF IRON OR STEEL",
+  "section": "XV",
+  "n_clauses": 5
+ },
+ {
+  "chapter": 74,
+  "title": "CHAPTER 74",
+  "description": "COPPER AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 13
+ },
+ {
+  "chapter": 75,
+  "title": "CHAPTER 75",
+  "description": "NICKEL AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 76,
+  "title": "CHAPTER 76",
+  "description": "ALUMINUM AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 16
+ },
+ {
+  "chapter": 78,
+  "title": "CHAPTER 78",
+  "description": "LEAD AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 79,
+  "title": "CHAPTER 79",
+  "description": "ZINC AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 12
+ },
+ {
+  "chapter": 80,
+  "title": "CHAPTER 80",
+  "description": "TIN AND ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 5
+ },
+ {
+  "chapter": 81,
+  "title": "CHAPTER 81",
+  "description": "OTHER BASE METALS; CERMETS; ARTICLES THEREOF",
+  "section": "XV",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 82,
+  "title": "CHAPTER 82",
+  "description": "TOOLS, IMPLEMENTS, CUTLERY, SPOONS AND FORKS, OF BASE",
+  "section": "XV",
+  "n_clauses": 12
+ },
+ {
+  "chapter": 83,
+  "title": "CHAPTER 83",
+  "description": "MISCELLANEOUS ARTICLES OF BASE METAL",
+  "section": "XV",
+  "n_clauses": 5
+ },
+ {
+  "chapter": 84,
+  "title": "CHAPTER 84",
+  "description": "NUCLEAR REACTORS, BOILERS, MACHINERY AND",
+  "section": "XVI",
+  "n_clauses": 74
+ },
+ {
+  "chapter": 85,
+  "title": "CHAPTER 85",
+  "description": "ELECTRICAL MACHINERY AND EQUIPMENT AND PARTS THEREOF; SOUND RECORDERS",
+  "section": "XVI",
+  "n_clauses": 91
+ },
+ {
+  "chapter": 86,
+  "title": "CHAPTER 86",
+  "description": "RAILWAY OR TRAMWAY LOCOMOTIVES, ROLLING STOCK AND PARTS THEREOF;",
+  "section": "XVII",
+  "n_clauses": 14
+ },
+ {
+  "chapter": 87,
+  "title": "CHAPTER 87",
+  "description": "VEHICLES OTHER THAN RAILWAY OR TRAMWAY ROLLING STOCK,",
+  "section": "XVII",
+  "n_clauses": 11
+ },
+ {
+  "chapter": 88,
+  "title": "CHAPTER 88",
+  "description": "AIRCRAFT, SPACECRAFT, AND PARTS THEREOF",
+  "section": "XVII",
+  "n_clauses": 3
+ },
+ {
+  "chapter": 89,
+  "title": "CHAPTER 89",
+  "description": "SHIPS, BOATS AND FLOATING STRUCTURES",
+  "section": "XVII",
+  "n_clauses": 2
+ },
+ {
+  "chapter": 90,
+  "title": "CHAPTER 90",
+  "description": "OPTICAL, PHOTOGRAPHIC, CINEMATOGRAPHIC, MEASURING, CHECKING, PRECISION, MEDICAL",
+  "section": "XVIII",
+  "n_clauses": 33
+ },
+ {
+  "chapter": 91,
+  "title": "CHAPTER 91",
+  "description": "CLOCKS AND WATCHES AND PARTS THEREOF",
+  "section": "XVIII",
+  "n_clauses": 64
+ },
+ {
+  "chapter": 92,
+  "title": "CHAPTER 92",
+  "description": "MUSICAL INSTRUMENTS; PARTS AND ACCESSORIES OF SUCH ARTICLES",
+  "section": "XVIII",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 93,
+  "title": "CHAPTER 93",
+  "description": "ARMS AND AMMUNITION; PARTS AND ACCESSORIES THEREOF",
+  "section": "XIX",
+  "n_clauses": 9
+ },
+ {
+  "chapter": 94,
+  "title": "CHAPTER 94",
+  "description": "FURNITURE; BEDDING, MATTRESSES, MATTRESS SUPPORTS, CUSHIONS AND SIMILAR STUFFED FURNISHINGS;",
+  "section": "XX",
+  "n_clauses": 25
+ },
+ {
+  "chapter": 95,
+  "title": "CHAPTER 95",
+  "description": "TOYS, GAMES AND SPORTS EQUIPMENT; PARTS AND ACCESSORIES THEREOF",
+  "section": "XX",
+  "n_clauses": 37
+ },
+ {
+  "chapter": 96,
+  "title": "CHAPTER 96",
+  "description": "MISCELLANEOUS MANUFACTURED ARTICLES",
+  "section": "XX",
+  "n_clauses": 20
+ },
+ {
+  "chapter": 97,
+  "title": "CHAPTER 97",
+  "description": "WORKS OF ART, COLLECTORS' PIECES AND ANTIQUES",
+  "section": "XXI",
+  "n_clauses": 12
+ },
+ {
+  "chapter": 98,
+  "title": "CHAPTER 98",
+  "description": "SPECIAL CLASSIFICATION PROVISIONS",
+  "section": "XXII",
+  "n_clauses": 311
+ },
+ {
+  "chapter": 99,
+  "title": "CHAPTER 99",
+  "description": "TEMPORARY LEGISLATION; TEMPORARY MODIFICATIONS ESTABLISHED",
+  "section": "XXII",
+  "n_clauses": 472
+ }
+]

@@ -1,0 +1,18 @@
+# 秘钥
+.env
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# 原始下载数据（重建用，不在 repo 内；解析后的工件在 artifacts/ 已提交）
+data/raw/
+
+# 运行时缓存（按需增长，云端会重建）
+artifacts/llm_cache/
+artifacts/uk_cache/
+
+# 系统文件
+Thumbs.db
+.DS_Store

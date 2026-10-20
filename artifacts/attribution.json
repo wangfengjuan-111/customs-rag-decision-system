@@ -1,0 +1,15 @@
+{
+ "n": 70,
+ "all": {
+  "none": 37,
+  "S2": 5,
+  "S4_kept_not_rank1": 15,
+  "S5": 10,
+  "S4_dropped_other": 3
+ },
+ "errors": {
+  "S2": 5,
+  "S4_kept_not_rank1": 15,
+  "S4_dropped_other": 3
+ }
+}
