@@ -31,6 +31,7 @@ class PipelineResult:
     codes_6d: list[str] = field(default_factory=list)        # top-3 六位
     code_8d: str | None = None
     ambiguous: bool = False
+    duty: dict = field(default_factory=dict)                 # S7 关税拆解（MFN+99章叠加）
     timings: dict[str, float] = field(default_factory=dict)  # 各阶段秒数
 
 
@@ -107,6 +108,22 @@ def classify(
     res.ambiguous = verdict.ambiguous or (resolution.ambiguous if resolution else True)
     # 逐字引用（groundedness 反查）
     res.s6_verdict["citations_verbatim"] = s6_score.citations_verbatim(all_clause_cited)
+
+    # S7 关税计算（MFN + 99 章叠加），挂在 top-1 八位码上
+    if res.code_8d:
+        try:
+            from src.tariff.calculator import compute_duty
+
+            duty = compute_duty(res.code_8d, origin="China")
+            res.duty = {
+                "code_8d": duty.code_8d,
+                "mfn_pct": duty.mfn_pct,
+                "mfn_text": duty.mfn_text,
+                "overlays": duty.overlays,
+                "effective_pct": duty.effective_pct,
+            }
+        except Exception as e:  # noqa: BLE001
+            res.duty = {"error": str(e)}
     res.timings["total"] = round(time.time() - t_total, 2)
     return res
 

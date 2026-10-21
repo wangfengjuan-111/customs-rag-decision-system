@@ -40,36 +40,45 @@ def render_classify() -> None:
     st.header("HTS 编码归类（六阶段确定性漏斗）")
     st.caption("控制流由代码固定，LLM 只在窄阶段调用；每个阶段的中间态都可检查、可归因。")
 
+    # 输入框绑定 session_state：切 tab / 改税率查询不丢内容
+    if "classify_desc" not in st.session_state:
+        st.session_state["classify_desc"] = (
+            "50 pcs HD hydrogel film for all phones, matte / anti-blue-ray / UV / privacy, TPU material"
+        )
+
     col1, col2 = st.columns([3, 2])
     with col1:
-        desc = st.text_area(
-            "商品描述（英文效果最佳）",
-            value="50 pcs HD hydrogel film for all phones, matte / anti-blue-ray / UV / privacy, TPU material",
-            height=90,
-        )
+        desc = st.text_area("商品描述（英文效果最佳）", key="classify_desc", height=90)
     with col2:
-        attrs_json = st.text_area("卖家结构化属性（可选，JSON）", value="", height=90)
+        attrs_json = st.text_area("卖家结构化属性（可选，JSON）", key="classify_attrs", height=90)
 
-    if not st.button("🚀 开始归类", type="primary"):
+    if st.button("🚀 开始归类", type="primary"):
+        classify = pipeline_modules()
+        try:
+            with st.status("六阶段漏斗运行中…", expanded=True) as status:
+                def _report(name):
+                    status.update(label=f"六阶段漏斗：{name}…")
+
+                r = classify(desc, attrs_json, on_stage=_report)
+                status.update(
+                    label=f"完成，总耗时 {r.timings.get('total', '?')}s",
+                    state="complete",
+                    expanded=False,
+                )
+            # 结果缓存到 session_state：rerun 不重算，直到再次点击按钮
+            st.session_state["classify_result"] = r
+        except Exception as e:  # noqa: BLE001
+            st.error(f"流水线失败：{e}")
+            return
+
+    # 渲染只依赖缓存结果——与按钮点击解耦
+    r = st.session_state.get("classify_result")
+    if r is None:
         return
-
-    classify = pipeline_modules()
-    try:
-        with st.status("六阶段漏斗运行中…", expanded=True) as status:
-            stage_box = st.empty()
-
-            def _report(name):
-                status.update(label=f"六阶段漏斗：{name}…")
-
-            r = classify(desc, attrs_json, on_stage=_report)
-            status.update(
-                label=f"完成，总耗时 {r.timings.get('total', '?')}s",
-                state="complete",
-                expanded=False,
-            )
-    except Exception as e:  # noqa: BLE001
-        st.error(f"流水线失败：{e}")
-        return
+    if desc != r.description:
+        st.caption("📎 当前显示**上次归类结果**（缓存）——输入已修改，点击「开始归类」重新查询。")
+    else:
+        st.caption("📎 当前显示上次归类结果（缓存）——再次点击「开始归类」刷新。")
 
     # ── 最终结果（用户要的第一屏：6/8 位码 + 置信度，中文）──
     top3 = r.codes_4d
@@ -150,7 +159,10 @@ def render_classify() -> None:
 
 def render_tariff() -> None:
     st.header("多国关税税率查询")
-    st.caption("官方数据源：美国 hts.usitc.gov · 英国 GOV.UK Trade Tariff API · 日本 Japan Customs。")
+    st.caption(
+        "官方数据源：美国 hts.usitc.gov（含 99 章 301/232/IEEPA 叠加）· 欧盟 TARIC（CIRCABC，含对华反倾销）· "
+        "英国 GOV.UK · 日本 Japan Customs。"
+    )
 
     default = ""
     if "last_codes_6d" in st.session_state and st.session_state["last_codes_6d"]:
@@ -168,7 +180,11 @@ def render_tariff() -> None:
     with c_code:
         code = st.text_input("HS 编码（4/6/8 位）", value=default)
     with c_origin:
-        origin = st.text_input("原产国（仅美国需要）", value="CN").strip().upper() if country == "US" else ""
+        if country in ("US", "EU"):
+            ph = "CN" if country == "US" else "CN / VN / TR / IN…"
+            origin = st.text_input("原产国（两位代码）", value="CN", placeholder=ph).strip().upper()
+        else:
+            origin = ""
 
     if not code:
         return
@@ -181,13 +197,60 @@ def render_tariff() -> None:
         return
 
     if country == "US":
-        _render_tariff_us(res)
+        _render_tariff_us(res, origin)
+    elif country == "EU":
+        _render_tariff_eu(res, origin)
     else:
         _render_tariff_generic(res)
 
 
-def _render_tariff_us(res: dict) -> None:
-    """美国：三列税率 + 原产国自动判定适用列。"""
+def _render_tariff_eu(res: dict, origin: str) -> None:
+    """欧盟：按 TARIC 行分组展示（描述 + 基础税率 + 原产国附加措施）。"""
+    multiple = len(res["lines"]) > 1
+    if multiple:
+        st.info(f"🔎 该编码下有 {len(res['lines'])} 个 TARIC 税号行（各行税率可能不同），请按商品特征对号入座。")
+    for line in res["lines"]:
+        st.markdown(f"**`{line['code']}`** {line.get('description', '')}")
+        st.markdown(
+            f"- **基础税率（第三国关税，ERGA OMNES）**：`{line['mfn_raw']}`"
+        )
+        measures = line.get("measures", [])
+        if origin and not measures:
+            st.markdown(f"- **{origin} 附加措施**：无命中（该编码对 {origin} 无反倾销/反补贴/额外关税）")
+        for m in measures:
+            tag = {
+                "anti_dumping": "🔴 反倾销",
+                "countervailing": "🔴 反补贴",
+                "additional": "🟠 额外关税",
+                "customs_union": "关税同盟税率",
+            }.get(m["type"], m["type"])
+            cond = "（条件性税率，按企业抽样税率执行，需人工核算）" if m["duty"].get("conditional") else ""
+            st.markdown(f"- **{tag}（{m['origin']}）**：`{m['duty']['raw'][:80]}` {cond}")
+            st.caption(f"  法律基础：{m['legal']}")
+    st.caption(f"ℹ️ {res['source_note']}")
+
+
+def _render_tariff_us(res: dict, origin: str = "") -> None:
+    """美国：总关税置顶 + 三列税率明细 + 99 章叠加拆解。"""
+    # ── 99 章叠加拆解（301/232/IEEPA/芬太尼），总关税置顶 ──
+    duty = None
+    try:
+        from src.tariff.calculator import compute_duty
+
+        duty = compute_duty(res["code"], origin=origin if origin else "CN")
+    except Exception as e:  # noqa: BLE001
+        st.warning(f"99 章叠加计算不可用：{e}")
+
+    if duty is not None:
+        st.success(
+            f"### 🇺🇸 合计从价税率：**{duty.effective_pct:.1f}%**"
+            f"（MFN {duty.mfn_pct:g}% + 99 章叠加 {duty.total_addon_pct:g}%）"
+            + (f" + 从量 {duty.mfn_cents_per_kg}¢/kg" if duty.mfn_cents_per_kg else "")
+        )
+        st.caption("公式：总关税 = MFN 基础税率 + Σ(命中的 99 章叠加，301/232/IEEPA 各授权独立累加)；豁免条款已剔除。")
+        for n in duty.notes:
+            st.caption(f"⚠️ {n}")
+
     st.info(f"🌍 适用列判定：{res['scheme_basis']}")
     COL_LABELS = {
         "general": "General 普遍税率",
@@ -207,6 +270,18 @@ def _render_tariff_us(res: dict) -> None:
         ]
         st.table(table)
     st.caption(f"ℹ️ {res['source_note']}")
+
+    if duty is not None and duty.overlays:
+        st.subheader("Chapter 99 叠加关税明细")
+        rows = [
+            {
+                "叠加税号": o["overlay_code"],
+                "税率": f"+{o['rate_pct']:g}%",
+                "措施说明": o["desc"][:90],
+            }
+            for o in duty.overlays
+        ]
+        st.table(rows)
 
 
 def _render_tariff_generic(res: dict) -> None:

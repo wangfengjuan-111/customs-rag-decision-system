@@ -2,7 +2,8 @@
 多国关税注册表：统一 lookup(country, code) 入口。
 
 各国数据源（全部官方；详见各 provider 模块头注释）：
-    US  hts.usitc.gov exportList（离线全量，rates.py）
+    US  hts.usitc.gov exportList（离线全量，rates.py）+ 99 章叠加（calculator.py，parse_ch99.py）
+    EU  TARIC 措施数据库 CIRCABC 导出（离线全量，eu.py；ingest/parse_taric.py）
     GB  GOV.UK Trade Tariff API（按需 + 磁盘缓存，uk.py）
     JP  Japan Customs 英文关税表（离线全量，jp.py；ingest/download_tariff_jp.py）
     CA  CBSA Customs Tariff HTML 章节页（离线全量，ca.py；ingest/download_tariff_ca.py）
@@ -15,13 +16,13 @@
     BR  官网可达但未确认机器可读源
     IN  icegate.gov.in 网络不可达（SSL）
     MX  sat.gob.mx 网络不可达
-    EU  TARIC 网页应用（无公开 REST API，且访问 >60s）
 """
-from src.tariff import au, ca, jp, uk
+from src.tariff import au, ca, eu, jp, uk
 from src.tariff.rates import summarize as summarize_us
 
 COUNTRIES = {
-    "US": {"label": "美国（HTS）", "lookup": summarize_us, "needs_country": True},
+    "US": {"label": "美国（HTS + 301/232/IEEPA 叠加）", "lookup": summarize_us, "needs_country": True},
+    "EU": {"label": "欧盟（TARIC 含对华反倾销）", "lookup": eu.lookup_eu, "needs_country": True},
     "GB": {"label": "英国（UK Global Tariff）", "lookup": uk.lookup_uk, "needs_country": False},
     "JP": {"label": "日本（関税率）", "lookup": jp.lookup_jp, "needs_country": False},
     "CA": {"label": "加拿大（Customs Tariff）", "lookup": ca.lookup_ca, "needs_country": False},
@@ -30,7 +31,7 @@ COUNTRIES = {
 
 
 def lookup(country: str, code: str, origin: str = "") -> dict:
-    """统一查询入口。origin 仅 US 用（判定适用税率列）。"""
+    """统一查询入口。origin 用于 US（判定适用税率列）和 EU（反倾销措施匹配）。"""
     cfg = COUNTRIES.get(country)
     if not cfg:
         return {"error": f"不支持的国家代码 {country}，可选：{list(COUNTRIES)}"}
