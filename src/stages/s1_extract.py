@@ -3,6 +3,8 @@ Stage 1 · 属性抽取：自由文本商品描述 → 固定 schema 的结构�
 
 对应论文：把人类归类员"翻税则前的预读"外部化；营销词标记为非归类装饰。
 S2 检索将同时用原始描述与本阶段属性（原文+属性双查询）。
+属性值统一输出 HTS 术语（英文）：中文输入也会翻成海关用语，
+保证双查询的"属性路"能命中英文语料（原文路由残差注入兜底）。
 """
 import json
 
@@ -15,7 +17,12 @@ SYSTEM = (
     "You are a customs classification assistant. Extract structured product attributes "
     "from a free-form e-commerce product description for HS tariff classification. "
     "Only use information present in the description. Marketing terms that do not affect "
-    "classification must be listed in decorations, never in the substantive fields."
+    "classification must be listed in decorations, never in the substantive fields. "
+    "Write every substantive field in English HS/HTS tariff nomenclature — the wording "
+    "heading and subheading texts use (e.g. 'thermoplastic polyurethane (TPU)', "
+    "'self-adhesive film', 'knitted', 'of a kind used for motor vehicles'). Translate any "
+    "non-English input accordingly: these strings feed lexical (BM25) + dense retrieval over "
+    "English tariff text, so a Chinese description must yield English attribute values."
 )
 
 

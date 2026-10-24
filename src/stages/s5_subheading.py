@@ -66,11 +66,11 @@ def resolve(code: str, description: str, attrs: Attributes) -> SubheadingResolut
         {"role": "user", "content": user},
     ]
     res = ask_json(messages, SubheadingResolution, temperature=TEMP_RESOLVE)
-    return _validate(res, code)
+    return _validate(res, code, description)
 
 
-def _validate(res: SubheadingResolution, code: str) -> SubheadingResolution:
-    """码必须真实存在于子树；否则标 ambiguous 并尝试模糊修正。"""
+def _validate(res: SubheadingResolution, code: str, description: str) -> SubheadingResolution:
+    """码必须真实存在于子树；否则标 ambiguous 并用子目文本 BM25 模糊修正。"""
     store = get_store()
     h = store.get_heading(code)
     codes6, codes8 = set(), set()
@@ -80,13 +80,12 @@ def _validate(res: SubheadingResolution, code: str) -> SubheadingResolution:
         codes6.add(digits[:6])
     six = re.sub(r"\D", "", res.six_digit or "")[:6]
     if six not in codes6:
-        # 模糊修正：前 4 位一致且 6 位前缀最接近的子目
-        cands = [c for c in codes6 if c[:4] == code.replace(".", "")[:4]]
-        alt = min(cands, key=lambda c: sum(a != b for a, b in zip(c, six))) if cands and six else None
+        # 模糊修正：按描述与子目文本的 BM25 匹配选码（比汉明距离的数字邻近更有依据）
+        alt = heuristic_six_digit(code, description)
         if alt:
             six = alt
             res.ambiguous = True
-            res.reasoning += " [auto-corrected: model emitted a code not in the subtree]"
+            res.reasoning += " [auto-corrected via subheading-text BM25: model emitted a code not in the subtree]"
         else:
             six = ""
             res.ambiguous = True
@@ -100,8 +99,11 @@ def _validate(res: SubheadingResolution, code: str) -> SubheadingResolution:
 
 
 def heuristic_six_digit(code: str, description: str) -> str:
-    """无 LLM 的廉价六位猜测（仅用于 top-2/3 的 6 位评测口径）：
-    在品目子树内用 BM25 选与描述最匹配的子目文本。"""
+    """无 LLM 的六位猜测：品目子树内 BM25，选与描述最匹配的子目文本。
+
+    用于 _validate 的模糊修正与 top-2/3 的 6 位评测口径。
+    无词法命中（全 0 分）时回退 depth-0 首个子目，避免 argmax 随机取 0 号。
+    """
     from src.knowledge.retrieval import tokenize
 
     store = get_store()
@@ -115,5 +117,8 @@ def heuristic_six_digit(code: str, description: str) -> str:
         depth0 = [n for d, n in flat if d == 0] or [n for _, n in flat]
         return depth0[0]["code"].replace(".", "")[:6]
     bm = BM25Okapi(corpus)
-    best = int(np.argmax(bm.get_scores(query)))
-    return flat[best][1]["code"].replace(".", "")[:6]
+    scores = bm.get_scores(query)
+    if scores[int(np.argmax(scores))] <= 0:
+        depth0 = [n for d, n in flat if d == 0] or [n for _, n in flat]
+        return depth0[0]["code"].replace(".", "")[:6]
+    return flat[int(np.argmax(scores))][1]["code"].replace(".", "")[:6]

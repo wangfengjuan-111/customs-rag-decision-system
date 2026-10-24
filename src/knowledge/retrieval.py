@@ -35,27 +35,45 @@ RE_CJK = re.compile(r"[一-鿿]")
 # 轻量词干化：ies→y（batteries→battery）、s 剥离（Porter 式 es 规则）、双辅音收缩（knitted→knit）
 _SXZCHSH = ("s", "x", "z", "ch", "sh")
 _SUF = ("ing", "ers", "ed")
+# 白名单①：-ies 复数但单数以 -ie 结尾/不变格（movies/cookies/series/species），
+# 否则被 ies→y 误伤成 movy/sery；剥一个 s 使单复数形式收敛到同一词干
+_IES_KEEP = ("ser", "spec", "mov", "cook")  # series/species/movies/cookies
+# 白名单②：-es 词尾但 e 属于词干（单数以 -se 结尾），如 houses→house 而非 hous；
+# 用 endswith 匹配以覆盖复合词（warehouses→warehouse）。buses→bus 不在表内走默认分支
+_ES_E = ("hous", "cas", "bas", "phas", "purpos", "cours", "respons",
+         "licens", "releas", "increas", "decreas", "purchas", "expens", "claus")
+# 白名单③：本身以 s 结尾的单数名词，s 剥离分支要原样保留
+_KEEP_S = ("lens",)  # lens/lenses 都收敛到 "lens"（相机镜片是品类词）
 
 
 def _stem(w: str) -> str:
     if len(w) <= 3:
         return w
     if w.endswith("ies") and len(w) > 4:
-        return w[:-3] + "y"
+        stem = w[:-3]
+        if stem.endswith(_IES_KEEP):
+            return w[:-1]  # movies→movie, series→serie（自洽即可），保住 -ie 词干
+        return stem + "y"
     for suf in _SUF:
         if w.endswith(suf):
             base = w[: -len(suf)]
             if len(base) >= 3:
-                if len(base) >= 4 and base[-1] == base[-2] and base[-1] not in "lsf":
+                # -ved/-ving 的 v 后还原 e（moved/moving→move）；drivers→driv 不动（suf=="ers"）
+                if base[-1] == "v" and suf != "ers":
+                    return base + "e"
+                # 双辅音收缩，元音排除（needed→need 而非 nee；knitted→knit 仍收缩）
+                if len(base) >= 4 and base[-1] == base[-2] and base[-1] not in "lsfaeiou":
                     base = base[:-1]
                 return base
             return w
     if w.endswith("es"):
         stem2 = w[:-2]
         if stem2.endswith(_SXZCHSH) and len(stem2) >= 3:
-            return stem2
+            if stem2.endswith(_ES_E):  # e 属于词干：houses→house, cases→case
+                return stem2 + "e"
+            return stem2  # boxes→box, buses→bus
         return w[:-1]  # articles→article
-    if w.endswith("s") and not w.endswith("ss") and len(w) > 3:
+    if w.endswith("s") and not w.endswith(("ss", "sis")) and w not in _KEEP_S and len(w) > 3:
         return w[:-1]
     return w
 
@@ -186,10 +204,13 @@ def get_retriever() -> DualRetriever:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "build":
+    argv = sys.argv[1:]
+    if argv and argv[0] == "build":
         DualRetriever().build()
     else:
-        q = sys.argv[1] if len(sys.argv) > 1 else "TPU hydrogel film screen protector for all phones"
+        if argv and argv[0] == "query":  # 文档化的子命令形式；此前会被当成查询词吞掉
+            argv = argv[1:]
+        q = " ".join(argv) if argv else "TPU hydrogel film screen protector for all phones"
         r = get_retriever()
         from src.knowledge.store import get_store
 

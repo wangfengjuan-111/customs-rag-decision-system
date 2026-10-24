@@ -4,6 +4,7 @@ HSCodeComp 评测：批量跑流水线，落盘 JSONL，断点续跑。
 用法：
     python -m src.eval.run_eval 20          # 前 20 条
     python -m src.eval.run_eval 50 --seed 7 # 抽样 50 条
+    python -m src.eval.run_eval 5 --fresh   # 旧结果归档为 v{N} 后重跑（改提示词后用）
     python -m src.eval.run_eval all         # 全量 632
     python -m src.eval.run_eval report      # 只汇总已有结果
 
@@ -14,6 +15,7 @@ import random
 import re
 import sys
 import time
+from dataclasses import asdict
 
 from config import ARTIFACTS, DATA_HSCODES
 
@@ -61,7 +63,7 @@ def run(n: int | str, seed: int | None = None) -> None:
         except Exception as e:  # noqa: BLE001
             print(f"[{i}] FAIL {row['task_id']}: {e}")
             continue
-        rec = r.to_dict()
+        rec = asdict(r)  # PipelineResult 全平铺字段（pydantic 对象已在 pipeline 内 model_dump）
         rec["task_id"] = row["task_id"]
         rec["gold"] = gold_digits(row["hs_code"])
         with open(RESULTS, "a", encoding="utf-8") as f:
@@ -81,6 +83,18 @@ def run(n: int | str, seed: int | None = None) -> None:
                 f"6d top1={ok6/n_done:.1%} top3={t3_6/n_done:.1%} | {rate:.1f} it/s"
             )
     print(f"new: {n_done}, total in file: {len(done) + n_done}")
+
+
+def _archive() -> None:
+    """旧结果归档为 eval_results.v{N}.jsonl（沿用 v1 的版本号惯例），供前后对照。"""
+    if not RESULTS.exists():
+        return
+    v = 1
+    while (ARTIFACTS / f"eval_results.v{v}.jsonl").exists():
+        v += 1
+    dest = ARTIFACTS / f"eval_results.v{v}.jsonl"
+    RESULTS.rename(dest)
+    print(f"archived {RESULTS.name} -> {dest.name}")
 
 
 def report() -> None:
@@ -105,6 +119,9 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "report":
         report()
     else:
-        n = sys.argv[1] if len(sys.argv) > 1 else "20"
+        pos = [a for a in sys.argv[1:] if not a.startswith("--")]
+        n = pos[0] if pos else "20"
         seed = int(sys.argv[sys.argv.index("--seed") + 1]) if "--seed" in sys.argv else None
+        if "--fresh" in sys.argv:
+            _archive()  # 断点续跑会跳过旧 task_id；改提示词后重跑须先归档
         run(n, seed)

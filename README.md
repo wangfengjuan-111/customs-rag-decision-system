@@ -60,7 +60,11 @@ pip install -r requirements.txt
 export HF_ENDPOINT=https://hf-mirror.com   # 国内镜像
 # .env: DEEPSEEK_API_KEY=...
 
-python -m src.ingest.build_index            # 若 artifacts/ 已随 repo 提供可跳过
+python -m src.ingest.download_hts           # ① USITC 拉取：exportList 品目条文 + 章注 HTML
+python -m src.ingest.parse_notes            # ② 章注 HTML → clauses.jsonl + chapters_meta.json
+python -m src.ingest.build_hierarchy        # ③ 品目/子目树 + 条款挂载 → headings.json/hierarchy.json
+python -m src.knowledge.retrieval build     # ④ BM25 词法 + dense 稠密索引（artifacts/dense.npy）
+# ①-④ 若 artifacts/ 已随 repo 提供可整体跳过；99 章叠加税另见 src/ingest/parse_ch99.py
 python -m src.eval.run_eval 70              # 评测（断点续跑）
 python -m src.eval.run_eval report          # 汇总指标
 python -m src.eval.attribution              # 错例归因 + 分布图

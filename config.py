@@ -35,7 +35,6 @@ EMBED_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "
 # ── 漏斗参数（论文：~40 → ~10 → 3）──
 N_RETRIEVE = 64   # S2 双路检索候选品目数（70 条评测：40 时 gold 召回 82.9%，64 修复融合后 94%+）
 N_L1_KEEP = 10    # S3 粗排留存
-N_L1_KEEP = 10    # S3 粗排留存
 N_L2_KEEP = 3     # S4 精排留存（top-3 输出）
 
 # ── 路径 ──

@@ -140,18 +140,28 @@ def _context(codes: list[str]) -> str:
     return "\n\n".join(parts)
 
 
-def rank_l2(description: str, attrs: Attributes, candidates: list[str]) -> L2Result:
+def _ask_l2(description: str, attrs: Attributes, codes: list[str]) -> L2Result:
     user = (
         f"Product description: {description}\n"
         f"Attributes: {attrs.model_dump_json()}\n\n"
-        f"Candidates with legal context:\n{_context(candidates)}\n\n"
-        f"Rank all {len(candidates)} candidates; commit to exactly the top {N_L2_KEEP} as kept=true."
+        f"Candidates with legal context:\n{_context(codes)}\n\n"
+        f"Rank all {len(codes)} candidates; commit to exactly the top {N_L2_KEEP} as kept=true."
     )
     messages = [
         {"role": "system", "content": SYSTEM},
         {"role": "user", "content": user},
     ]
-    result = ask_json(messages, L2Result, temperature=TEMP_RANK)
+    return ask_json(messages, L2Result, temperature=TEMP_RANK)
+
+
+def rank_l2(description: str, attrs: Attributes, candidates: list[str]) -> L2Result:
+    """精排。漏打分候选重试一次（只发漏掉的）；仍缺由 _sanitize 补零分条目。"""
+    result = _ask_l2(description, attrs, candidates)
+    seen = {r.heading for r in result.rankings}
+    missing = [c for c in candidates if c not in seen]
+    if missing:
+        retry = _ask_l2(description, attrs, missing)
+        result.rankings.extend(r for r in retry.rankings if r.heading in missing and r.heading not in seen)
     return _sanitize(result, candidates)
 
 

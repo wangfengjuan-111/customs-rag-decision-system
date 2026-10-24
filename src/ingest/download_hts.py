@@ -71,6 +71,10 @@ def download_notes(chapters: range | None = None) -> None:
             fail += 1
             print(f"  FAILED ch{ch:02d}")
     print(f"notes done: {ok} ok, {fail} failed -> {NOTES_DIR}")
+    empty = sorted(f.name for f in NOTES_DIR.glob("ch*.html") if "<ul" not in f.read_text(encoding="utf-8"))
+    if empty:
+        # 少数章确实无注释（ch50 实测端点即空），但截断的下载也会长这样——需人工核对
+        print(f"WARN 无注释列表的章注页: {empty}")
 
 
 def download_items() -> None:

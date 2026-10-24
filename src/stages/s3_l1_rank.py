@@ -40,21 +40,31 @@ def _heading_lines(codes: list[str]) -> str:
     return "\n".join(lines)
 
 
-def rank_l1(description: str, attrs: Attributes, candidates: list[str]) -> list[L1Entry]:
-    """返回按分数降序的完整打分列表（调用方取前 N_L1_KEEP）。"""
+def _ask_l1(description: str, attrs: Attributes, codes: list[str]) -> dict[str, L1Entry]:
+    """单次打分调用，返回候选集内的 {heading: entry}（防幻觉过滤）。"""
     user = (
         f"Product description: {description}\n"
         f"Attributes: {attrs.model_dump_json()}\n\n"
-        f"Candidate headings:\n{_heading_lines(candidates)}\n\n"
-        f"Score all {len(candidates)} headings as JSON."
+        f"Candidate headings:\n{_heading_lines(codes)}\n\n"
+        f"Score all {len(codes)} headings as JSON."
     )
     messages = [
         {"role": "system", "content": SYSTEM},
         {"role": "user", "content": user},
     ]
     result = ask_json(messages, L1Ranking, temperature=TEMP_RANK)
-    # 防幻觉：只保留候选集内的打分，缺失的候选拼在末尾给最低分
-    by_code = {r.heading: r for r in result.rankings if r.heading in candidates}
+    return {r.heading: r for r in result.rankings if r.heading in codes}
+
+
+def rank_l1(description: str, attrs: Attributes, candidates: list[str]) -> list[L1Entry]:
+    """返回按分数降序的完整打分列表（调用方取前 N_L1_KEEP）。
+
+    漏打分候选重试一次（只发漏掉的，省 token）；仍缺则补 0 分条目保证归因完整。
+    """
+    by_code = _ask_l1(description, attrs, candidates)
+    missing = [c for c in candidates if c not in by_code]
+    if missing:
+        by_code.update(_ask_l1(description, attrs, missing))
     filled = [by_code.get(c, L1Entry(heading=c, score=0, reason="missing from model output")) for c in candidates]
     filled.sort(key=lambda r: -r.score)
     return filled

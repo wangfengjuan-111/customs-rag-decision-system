@@ -131,6 +131,10 @@ def group_name(ul: Tag) -> str:
             if "U.S." in text:
                 return "us_notes"
             return "legal"
+        if text == "NOTES" and "title" not in cls[0]:
+            # 裸 "Notes" 段落标题（misc_paragraph 类，无 NOTE 字样的 title 类）：
+            # ch20/43/99 等章页面结构，此前整组误判为 annex，排除条款对 S4 不可见
+            return "legal"
         p = prev
     return "annex"
 
@@ -188,6 +192,12 @@ def main() -> None:
     print(f"chapters parsed: {len(metas)}, clauses: {len(all_clauses)}")
     print("by type:", dict(types))
     print("by group:", dict(groups))
+    noteless = [m["chapter"] for m in metas if m["n_clauses"] == 0]
+    if noteless:
+        print(f"WARN 无任何条款的章节: {noteless}（USITC 页面无注释列表，如 ch50 实测端点即空；需人工核对是否截断）")
+    annex_chs = sorted({c.chapter for c in all_clauses if c.group == "annex"})
+    if annex_chs:
+        print(f"WARN annex 组残留 {groups.get('annex', 0)} 条，S4 不可见，章节: {annex_chs}")
 
 
 if __name__ == "__main__":

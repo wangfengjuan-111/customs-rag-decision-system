@@ -16,3 +16,8 @@ artifacts/uk_cache/
 # 系统文件
 Thumbs.db
 .DS_Store
+# 编辑器
+.vscode/
+
+# 评测运行日志（结果在 eval_results*.jsonl）
+artifacts/*.log

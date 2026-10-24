@@ -100,7 +100,9 @@ def main() -> None:
         if c["group"] in ("legal", "us_notes"):
             chapter_legal.setdefault(c["chapter"], []).append(c["clause_id"])
         for h in c["applies_to"]:
-            clause_by_heading.setdefault(h, []).append(c["clause_id"])
+            # applies_to 混有 4 位引用与 6 位带点码（parse_notes 两个正则的并集）：
+            # 统一按 4 位挂载，否则跨章 6 位引用（如 ch04 条款点名 151790）永远查不到
+            clause_by_heading.setdefault(h[:4], []).append(c["clause_id"])
 
     roots = build_tree(load_records())
     headings = []
